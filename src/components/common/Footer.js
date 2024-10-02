@@ -27,7 +27,7 @@ function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; 2023 Airsoft Marketplace. Tous droits réservés.</p>
+        <p>&copy; 2024 Airsoft Marketplace. Tous droits réservés.</p>
       </div>
     </footer>
   );
