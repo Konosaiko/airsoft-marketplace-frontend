@@ -1,20 +1,25 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.css';
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/common/Header';
+import Footer from './components/common/Footer';
+import HomePage from './pages/HomePage';
+
+import './styles/App.css';
 
 function App() {
   return (
     <Router>
-      <Header />
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route path="/listing/:id" component={ListingPage} />
-        <Route path="/create-listing" component={CreateListingPage} />
-        <Route path="/login" component={LoginPage} />
-        <Route path="/register" component={RegisterPage} />
-        <Route path="/profile" component={UserProfilePage} />
-        <Route path="/search" component={SearchResultsPage} />
-      </Switch>
-      <Footer />
+      <div className="app">
+        <Header />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+           
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }
