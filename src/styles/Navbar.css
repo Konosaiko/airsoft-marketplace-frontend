@@ -47,10 +47,27 @@
   align-items: center;
 }
 
-.navbar-actions a {
+.navbar-action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-left: 15px;
   color: #666;
   text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.navbar-action-item:hover {
+  color: #2f5a0c;
+}
+
+.navbar-action-item i {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.navbar-action-item span {
+  text-align: center;
 }
 
 .post-ad-button {

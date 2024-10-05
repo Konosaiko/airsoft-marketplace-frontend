@@ -18,19 +18,31 @@ function Navbar() {
         </div>
         <div className="navbar-actions">
           <Link to="/post-ad" className="post-ad-button">Déposer une annonce</Link>
-          <Link to="/searches"><i className="fas fa-bell"></i></Link>
-          <Link to="/favorites"><i className="fas fa-heart"></i></Link>
-          <Link to="/messages"><i className="fas fa-envelope"></i></Link>
-          <Link to="/profile"><i className="fas fa-user"></i></Link>
+          <Link to="/searches" className="navbar-action-item">
+            <i className="fas fa-bell"></i>
+            <span>Recherches</span>
+          </Link>
+          <Link to="/favorites" className="navbar-action-item">
+            <i className="fas fa-heart"></i>
+            <span>Favoris</span>
+          </Link>
+          <Link to="/messages" className="navbar-action-item">
+            <i className="fas fa-envelope"></i>
+            <span>Messages</span>
+          </Link>
+          <Link to="/profile" className="navbar-action-item">
+            <i className="fas fa-user"></i>
+            <span>Se connecter</span>
+          </Link>
         </div>
       </div>
       <div className="navbar-categories">
-        <Link to="/category/immobilier">Réplique courte</Link>
-        <Link to="/category/vehicules">Réplique longue</Link>
-        <Link to="/category/vacations">Accessoires répliques</Link>
-        <Link to="/category/emploi">Gear</Link>
-        <Link to="/category/mode">Consommables</Link>
-        <Link to="/category/maison">Outdoor</Link>
+        <Link to="/category/replique-courte">Réplique courte</Link>
+        <Link to="/category/replique-longue">Réplique longue</Link>
+        <Link to="/category/accessoires-repliques">Accessoires répliques</Link>
+        <Link to="/category/gear">Gear</Link>
+        <Link to="/category/consommables">Consommables</Link>
+        <Link to="/category/outdoor">Outdoor</Link>
       </div>
     </nav>
   );
