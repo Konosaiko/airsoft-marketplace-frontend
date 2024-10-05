@@ -1,0 +1,81 @@
+/* src/styles/Navbar.css */
+.navbar {
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.navbar-logo a {
+  color: #2f5a0c;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar-search {
+  flex-grow: 1;
+  margin: 0 20px;
+  display: flex;
+}
+
+.navbar-search input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+}
+
+.navbar-search button {
+  padding: 10px 15px;
+  background-color: #2f5a0c;
+  color: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-actions a {
+  margin-left: 15px;
+  color: #666;
+  text-decoration: none;
+}
+
+.post-ad-button {
+  background-color: #2f5a0c;
+  color: white !important;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.navbar-categories {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #eee;
+}
+
+.navbar-categories a {
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.navbar-categories a:hover {
+  color: #2f5a0c;
+}
