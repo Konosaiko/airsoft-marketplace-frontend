@@ -11,12 +11,14 @@ import RegisterPage from './pages/RegisterPage';
 import UserProfilePage from './pages/UserProfilePage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import './styles/App.css';
+import CategoryBar from './components/common/CategoryBar';
 
 function App() {
   return (
     <Router>
       <div className="app">
         <Navbar />
+        <CategoryBar />
         <main className="main-content">
           <Routes>
             <Route path="/" element={<HomePage />} />
