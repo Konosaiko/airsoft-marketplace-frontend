@@ -52,13 +52,6 @@ function Navbar() {
           </Link>
         </div>
       </div>
-      <div className="navbar-categories">
-        {categories.map((category) => (
-          <Link key={category.id} to={`/category/${category.slug}`}>
-            {category.name}
-          </Link>
-        ))}
-      </div>
     </nav>
   );
 }
