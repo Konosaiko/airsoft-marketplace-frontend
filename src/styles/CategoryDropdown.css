@@ -1,0 +1,31 @@
+.category-dropdown {
+    position: relative;
+  }
+  
+  .category-main {
+    text-decoration: none;
+    color: #333;
+    padding: 10px;
+  }
+  
+  .subcategory-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1000;
+    min-width: 200px;
+  }
+  
+  .subcategory-item {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .subcategory-item:hover {
+    background-color: #f0f0f0;
+  }
