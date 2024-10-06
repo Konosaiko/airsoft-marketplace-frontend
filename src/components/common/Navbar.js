@@ -1,9 +1,25 @@
 // src/components/Navbar.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getCategories } from '../../services/api';
 import '../../styles/Navbar.css';
 
 function Navbar() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const fetchedCategories = await getCategories();
+        setCategories(fetchedCategories);
+      } catch (error) {
+        console.error("Erreur lors du chargement des catégories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -37,12 +53,11 @@ function Navbar() {
         </div>
       </div>
       <div className="navbar-categories">
-        <Link to="/category/replique-courte">Réplique courte</Link>
-        <Link to="/category/replique-longue">Réplique longue</Link>
-        <Link to="/category/accessoires-repliques">Accessoires répliques</Link>
-        <Link to="/category/gear">Gear</Link>
-        <Link to="/category/consommables">Consommables</Link>
-        <Link to="/category/outdoor">Outdoor</Link>
+        {categories.map((category) => (
+          <Link key={category.id} to={`/category/${category.slug}`}>
+            {category.name}
+          </Link>
+        ))}
       </div>
     </nav>
   );
