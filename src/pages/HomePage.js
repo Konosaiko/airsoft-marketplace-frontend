@@ -11,7 +11,7 @@ function HomePage() {
         <h2>Annonces en vedette</h2>
         <div className="listing-grid">
           {/* Ces div seront remplacées par de vrais composants d'annonce plus tard */}
-          <div className="listing-card">Annonce 1</div>
+          <div className="listing-card">Annonce 1s</div>
           <div className="listing-card">Annonce 2</div>
           <div className="listing-card">Annonce 3</div>
         </div>
