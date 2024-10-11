@@ -1,79 +1,52 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function LoginForm() {
-  const [formData, setFormData] = useState({
-    username: '',
-    password: ''
-  });
-  const [error, setError] = useState('');
+function LoginForm() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log('Sending login request...');
-      const response = await fetch('/api/login_check', {
+      const response = await fetch('http://localhost:8000/api/login_check', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
       });
-      console.log('Response status:', response.status);
-      
+
       if (response.ok) {
         const data = await response.json();
-        console.log('Login successful', data);
         localStorage.setItem('token', data.token);
-        navigate('/');
+        navigate('/'); // Redirige vers la page d'accueil après la connexion
       } else {
-        const errorData = await response.json();
-        console.error('Login failed:', errorData);
-        setError(errorData.message || 'Identifiants incorrects');
+        // Gérer les erreurs de connexion
+        console.error('Échec de la connexion');
       }
-    } catch (err) {
-      console.error('Error during login:', err);
-      setError('Une erreur est survenue lors de la connexion.');
+    } catch (error) {
+      console.error('Erreur lors de la connexion:', error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-          Nom d'utilisateur ou Email
-        </label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-        />
-      </div>
-      <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-          Mot de passe
-        </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-        />
-      </div>
-      {error && <div className="text-red-500 text-sm">{error}</div>}
-      <button type="submit" className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-        Se connecter
-      </button>
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder="Nom d'utilisateur"
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Mot de passe"
+      />
+      <button type="submit">Se connecter</button>
     </form>
   );
 }
+
+export default LoginForm;
