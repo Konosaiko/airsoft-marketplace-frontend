@@ -8,7 +8,7 @@ import ListingPage from './pages/ListingPage';
 import CreateListingPage from './pages/CreateListingPage';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
-import UserProfilePage from './pages/UserProfilePage';
+import ProfilePage from './pages/ProfilePage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import './styles/App.css';
 import CategoryBar from './components/common/CategoryBar';
@@ -28,7 +28,7 @@ function App() {
             <Route path="/create-listing" element={<CreateListingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/profile" element={<UserProfilePage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/search" element={<SearchResultsPage />} />
           </Routes>
         </main>
