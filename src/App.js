@@ -6,12 +6,14 @@ import Footer from './components/common/Footer';
 import HomePage from './pages/HomePage';
 import ListingPage from './pages/ListingPage';
 import CreateListingPage from './pages/CreateListingPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 import UserProfilePage from './pages/UserProfilePage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import './styles/App.css';
 import CategoryBar from './components/common/CategoryBar';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
