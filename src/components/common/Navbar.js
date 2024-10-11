@@ -1,11 +1,12 @@
-// src/components/Navbar.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getCategories } from '../../services/api';
+import { getUserInfo } from '../../services/userService';
 import '../../styles/Navbar.css';
 
 function Navbar() {
   const [categories, setCategories] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -17,7 +18,24 @@ function Navbar() {
       }
     };
 
+    const fetchUserInfo = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const userInfo = await getUserInfo();
+          setUser(userInfo);
+        } catch (error) {
+          console.error("Erreur lors du chargement des informations utilisateur:", error);
+          // Si l'erreur est due à un token invalide, nous devrions le supprimer
+          if (error.message.includes('invalid token')) {
+            localStorage.removeItem('token');
+          }
+        }
+      }
+    };
+
     fetchCategories();
+    fetchUserInfo();
   }, []);
 
   return (
@@ -46,10 +64,17 @@ function Navbar() {
             <i className="fas fa-envelope"></i>
             <span>Messages</span>
           </Link>
-          <Link to="/login" className="navbar-action-item">
-            <i className="fas fa-user"></i>
-            <span>Se connecter</span>
-          </Link>
+          {user ? (
+            <Link to="/profile" className="navbar-action-item">
+              <i className="fas fa-user"></i>
+              <span>{user.username}</span>
+            </Link>
+          ) : (
+            <Link to="/login" className="navbar-action-item">
+              <i className="fas fa-user"></i>
+              <span>Se connecter</span>
+            </Link>
+          )}
         </div>
       </div>
     </nav>
