@@ -16,7 +16,7 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log('Sending login request...', formData);
+      console.log('Sending login request...');
       const response = await fetch('/api/login_check', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
