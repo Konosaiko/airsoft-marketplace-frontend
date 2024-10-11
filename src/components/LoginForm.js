@@ -16,19 +16,26 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/user/login', {
+      console.log('Sending login request...', formData);
+      const response = await fetch('/api/login_check', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
+      console.log('Response status:', response.status);
+      
       if (response.ok) {
-        // Gérer la connexion réussie ici
+        const data = await response.json();
+        console.log('Login successful', data);
+        localStorage.setItem('token', data.token);
         navigate('/');
       } else {
-        const data = await response.json();
-        setError(data.message || 'Identifiants incorrects');
+        const errorData = await response.json();
+        console.error('Login failed:', errorData);
+        setError(errorData.message || 'Identifiants incorrects');
       }
     } catch (err) {
+      console.error('Error during login:', err);
       setError('Une erreur est survenue lors de la connexion.');
     }
   };
@@ -37,7 +44,7 @@ export default function LoginForm() {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-          Nom d'utilisateur
+          Nom d'utilisateur ou Email
         </label>
         <input
           type="text"
