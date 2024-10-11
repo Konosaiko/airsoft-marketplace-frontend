@@ -46,7 +46,7 @@ function Navbar() {
             <i className="fas fa-envelope"></i>
             <span>Messages</span>
           </Link>
-          <Link to="/profile" className="navbar-action-item">
+          <Link to="/login" className="navbar-action-item">
             <i className="fas fa-user"></i>
             <span>Se connecter</span>
           </Link>
