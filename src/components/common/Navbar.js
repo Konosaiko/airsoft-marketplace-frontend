@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCategories } from '../../services/api';
-import { getUserInfo, logout } from '../../services/userService';
+import { logout as logoutService } from '../../services/userService';
+import { useAuth } from '../../context/AuthContext';
 import '../../styles/Navbar.css';
 
 function Navbar() {
   const [categories, setCategories] = useState([]);
-  const [user, setUser] = useState(null);
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,31 +20,13 @@ function Navbar() {
       }
     };
 
-    const fetchUserInfo = async () => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        try {
-          const userInfo = await getUserInfo();
-          setUser(userInfo);
-        } catch (error) {
-          console.error("Erreur lors du chargement des informations utilisateur:", error);
-          if (error.message.includes('invalid token')) {
-            localStorage.removeItem('token');
-            setUser(null);
-          }
-        }
-      }
-    };
-
     fetchCategories();
-    fetchUserInfo();
   }, []);
 
   const handleLogout = async () => {
     try {
-      await logout();
-      localStorage.removeItem('token');
-      setUser(null);
+      await logoutService();
+      logout();
       navigate('/');
     } catch (error) {
       console.error("Erreur lors de la déconnexion:", error);
@@ -82,10 +65,10 @@ function Navbar() {
                 <i className="fas fa-user"></i>
                 <span>{user.username}</span>
               </Link>
-              <Link to="#" onClick={handleLogout} className="navbar-action-item">
+              <a href="#" onClick={handleLogout} className="navbar-action-item">
                 <i className="fas fa-sign-out-alt"></i>
                 <span>Se déconnecter</span>
-              </Link>
+              </a>
             </>
           ) : (
             <Link to="/login" className="navbar-action-item">
