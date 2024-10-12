@@ -5,19 +5,14 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        try {
-          const userInfo = await getUserInfo();
-          setUser(userInfo);
-        } catch (error) {
-          console.error("Erreur lors du chargement des informations utilisateur:", error);
-          localStorage.removeItem('token');
-        }
-      }
+      setLoading(true);
+      const userInfo = await getUserInfo();
+      setUser(userInfo); // Sera null si non connecté ou en cas d'erreur
+      setLoading(false);
     };
 
     fetchUser();
@@ -31,6 +26,10 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem('token');
   };
+
+  if (loading) {
+    return <div>Chargement...</div>; // Ou un spinner, ou rien du tout
+  }
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
