@@ -6,8 +6,7 @@ import Footer from './components/common/Footer';
 import HomePage from './pages/HomePage';
 import ListingPage from './pages/ListingPage';
 import CreateListingPage from './pages/CreateListingPage';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
+import { AuthProvider } from './context/AuthContext';
 import ProfilePage from './pages/ProfilePage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import './styles/App.css';
@@ -17,6 +16,7 @@ import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
+    <AuthProvider>
     <Router>
       <div className="app">
         <Navbar />
@@ -35,6 +35,7 @@ function App() {
         <Footer />
       </div>
     </Router>
+    </AuthProvider>
   );
 }
 
