@@ -29,3 +29,34 @@ export const getUserInfo = async () => {
     throw error;
   }
 };
+
+
+export const logout = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return; // Déjà déconnecté
+  }
+
+  try {
+    console.log('Sending logout request to:', `${API_URL}/logout`);
+    const response = await fetch(`${API_URL}/logout`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      console.error('Logout error response:', errorMessage);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // La déconnexion côté serveur a réussi
+    localStorage.removeItem('token');
+  } catch (error) {
+    console.error('Error during logout:', error);
+    throw error;
+  }
+};

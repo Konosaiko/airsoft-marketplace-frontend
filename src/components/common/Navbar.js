@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getCategories } from '../../services/api';
-import { getUserInfo } from '../../services/userService';
+import { getUserInfo, logout } from '../../services/userService';
 import '../../styles/Navbar.css';
 
 function Navbar() {
   const [categories, setCategories] = useState([]);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -26,9 +27,9 @@ function Navbar() {
           setUser(userInfo);
         } catch (error) {
           console.error("Erreur lors du chargement des informations utilisateur:", error);
-          // Si l'erreur est due à un token invalide, nous devrions le supprimer
           if (error.message.includes('invalid token')) {
             localStorage.removeItem('token');
+            setUser(null);
           }
         }
       }
@@ -37,6 +38,17 @@ function Navbar() {
     fetchCategories();
     fetchUserInfo();
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      localStorage.removeItem('token');
+      setUser(null);
+      navigate('/');
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion:", error);
+    }
+  };
 
   return (
     <nav className="navbar">
@@ -65,10 +77,16 @@ function Navbar() {
             <span>Messages</span>
           </Link>
           {user ? (
-            <Link to="/profile" className="navbar-action-item">
-              <i className="fas fa-user"></i>
-              <span>{user.username}</span>
-            </Link>
+            <>
+              <Link to="/profile" className="navbar-action-item">
+                <i className="fas fa-user"></i>
+                <span>{user.username}</span>
+              </Link>
+              <Link to="#" onClick={handleLogout} className="navbar-action-item">
+                <i className="fas fa-sign-out-alt"></i>
+                <span>Se déconnecter</span>
+              </Link>
+            </>
           ) : (
             <Link to="/login" className="navbar-action-item">
               <i className="fas fa-user"></i>
