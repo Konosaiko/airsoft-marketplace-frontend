@@ -18,9 +18,9 @@ const CreateListingForm = () => {
   const [regions, setRegions] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [error, setError] = useState('');
+  const [previews, setPreviews] = useState([]);
 
   useEffect(() => {
-    // Fetch categories, regions on component mount
     fetchCategories();
     fetchRegions();
   }, []);
@@ -31,6 +31,7 @@ const CreateListingForm = () => {
       setCategories(response.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
+      setError('Erreur lors du chargement des catégories');
     }
   };
 
@@ -40,6 +41,7 @@ const CreateListingForm = () => {
       setRegions(response.data);
     } catch (error) {
       console.error('Error fetching regions:', error);
+      setError('Erreur lors du chargement des régions');
     }
   };
 
@@ -49,21 +51,51 @@ const CreateListingForm = () => {
       setDepartments(response.data);
     } catch (error) {
       console.error('Error fetching departments:', error);
+      setError('Erreur lors du chargement des départements');
     }
   };
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: type === 'checkbox' ? checked : 
-               type === 'file' ? files :
-               value
-    }));
+    if (type === 'file') {
+      handleFileChange(files);
+    } else if (type === 'checkbox') {
+      setFormData(prevState => ({
+        ...prevState,
+        categories: checked
+          ? [...prevState.categories, value]
+          : prevState.categories.filter(id => id !== value)
+      }));
+    } else {
+      setFormData(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
 
     if (name === 'region') {
       fetchDepartments(value);
+      setFormData(prevState => ({ ...prevState, department: '' }));
     }
+  };
+
+  const handleFileChange = (files) => {
+    const fileArray = Array.from(files);
+    setFormData(prevState => ({
+      ...prevState,
+      photoFiles: [...prevState.photoFiles, ...fileArray]
+    }));
+
+    const newPreviews = fileArray.map(file => URL.createObjectURL(file));
+    setPreviews(prevPreviews => [...prevPreviews, ...newPreviews]);
+  };
+
+  const removePhoto = (index) => {
+    setFormData(prevState => ({
+      ...prevState,
+      photoFiles: prevState.photoFiles.filter((_, i) => i !== index)
+    }));
+    setPreviews(prevPreviews => prevPreviews.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e) => {
@@ -118,7 +150,15 @@ const CreateListingForm = () => {
         <label className="block text-sm font-medium text-gray-700">Catégories</label>
         {categories.map(category => (
           <div key={category.id} className="flex items-center">
-            <input type="checkbox" id={`category-${category.id}`} name="categories" value={category.id} onChange={handleChange} className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+            <input 
+              type="checkbox" 
+              id={`category-${category.id}`} 
+              name="categories" 
+              value={category.id} 
+              checked={formData.categories.includes(category.id.toString())}
+              onChange={handleChange} 
+              className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
+            />
             <label htmlFor={`category-${category.id}`} className="ml-2">{category.name}</label>
           </div>
         ))}
@@ -146,8 +186,38 @@ const CreateListingForm = () => {
 
       <div>
         <label htmlFor="photoFiles" className="block text-sm font-medium text-gray-700">Photos</label>
-        <input type="file" id="photoFiles" name="photoFiles" onChange={handleChange} multiple accept="image/jpeg,image/png" className="mt-1 block w-full" />
+        <input 
+          type="file" 
+          id="photoFiles" 
+          name="photoFiles" 
+          onChange={handleChange} 
+          multiple 
+          accept="image/*" 
+          className="mt-1 block w-full text-sm text-gray-500
+            file:mr-4 file:py-2 file:px-4
+            file:rounded-full file:border-0
+            file:text-sm file:font-semibold
+            file:bg-indigo-50 file:text-indigo-700
+            hover:file:bg-indigo-100"
+        />
       </div>
+
+      {previews.length > 0 && (
+        <div className="mt-4 grid grid-cols-3 gap-4">
+          {previews.map((preview, index) => (
+            <div key={index} className="relative">
+              <img src={preview} alt={`Preview ${index + 1}`} className="w-full h-32 object-cover rounded" />
+              <button
+                type="button"
+                onClick={() => removePhoto(index)}
+                className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
+              >
+                ×
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
 
       {error && <p className="text-red-500">{error}</p>}
 
