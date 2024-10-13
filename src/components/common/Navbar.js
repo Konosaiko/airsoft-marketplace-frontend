@@ -55,7 +55,7 @@ function Navbar() {
             </div>
           </div>
           <div className="flex items-center">
-            <Link to="/post-ad" className="ml-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2f5a0c] hover:bg-[#3a6f0f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2f5a0c]">
+            <Link to="/create-listing" className="ml-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2f5a0c] hover:bg-[#3a6f0f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2f5a0c]">
               Déposer une annonce
             </Link>
             <Link to="/searches" className="ml-6 text-sm font-medium text-gray-700 hover:text-[#2f5a0c]">
