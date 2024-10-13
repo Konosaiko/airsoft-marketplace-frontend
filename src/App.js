@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import HomePage from './pages/HomePage';
+import Layout from './components/Layout';
+
 import ListingPage from './pages/ListingPage';
 import CreateListingPage from './pages/CreateListingPage';
 import { AuthProvider } from './context/AuthContext';
@@ -18,8 +20,9 @@ function App() {
   return (
     <AuthProvider>
     <Router>
+    <Layout>
       <div className="app">
-        <Navbar />
+        
         <CategoryBar />
         <main className="main-content">
           <Routes>
@@ -32,8 +35,9 @@ function App() {
             <Route path="/search" element={<SearchResultsPage />} />
           </Routes>
         </main>
-        <Footer />
+        
       </div>
+      </Layout>
     </Router>
     </AuthProvider>
   );
