@@ -5,7 +5,7 @@ import '../styles/HomePage.css';
 
 function HomePage() {
   return (
-    <div className="home-page">
+    <div className="min-h-screen">
       <h1>Bienvenue sur la Marketplace Airsoft</h1>
       <section className="featured-listings">
         <h2>Annonces en vedette</h2>
