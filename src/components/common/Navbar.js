@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCategories } from '../../services/api';
-import { logout as logoutService } from '../../services/userService';
+import { logout as logoutService } from '../../services/api.js';
 import { useAuth } from '../../context/AuthContext';
 
 function Navbar() {
