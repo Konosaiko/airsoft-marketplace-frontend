@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getCategories, createListing } from '../services/api';
 import axios from 'axios';
 
 const CreateListingForm = () => {
@@ -100,30 +101,30 @@ const CreateListingForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     try {
       const formDataToSend = new FormData();
       Object.keys(formData).forEach(key => {
         if (key === 'categories') {
           formData[key].forEach(categoryId => formDataToSend.append('categories[]', categoryId));
         } else if (key === 'photoFiles') {
-          Array.from(formData.photoFiles).forEach(file => formDataToSend.append('photoFiles[]', file));
+          Array.from(formData.photoFiles).forEach((file, index) => 
+            formDataToSend.append(`photoFiles[${index}]`, file)
+          );
         } else {
           formDataToSend.append(key, formData[key]);
         }
       });
-
-      await axios.post('/api/listings', formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+  
+      const response = await createListing(formDataToSend);
+      console.log('Listing created:', response);
       navigate('/'); // Redirect to home page or listing page
     } catch (error) {
-      setError('Une erreur est survenue lors de la création de l\'annonce.');
       console.error('Error creating listing:', error);
+      setError(error.response?.data?.error || 'Une erreur est survenue lors de la création de l\'annonce.');
     }
   };
-
+  
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
