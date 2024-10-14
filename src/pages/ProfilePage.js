@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUserInfo } from '../services/userService';
+import { getUserInfo } from '../services/api.js';
 
 function ProfilePage() {
   const [user, setUser] = useState(null);
